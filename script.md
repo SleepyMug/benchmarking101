@@ -13,8 +13,8 @@
   - if something makes your system extremely good, more evidence is needed
   - if something is very obvious, you can get away with not having a benchmark for it
 ## Infrastructure
-- deterministic
-- you need to see it fail
+- deterministic*
+- you need to see it fail first
 - automated* (you will run this a *LOT* of times) (but also avoid over-engineering, be very careful what parameters you have)
 - granular, fast test: debuggable
 ## Common pitfalls
