@@ -1,11 +1,6 @@
 # Basic Stuff about Benchmarking
 
 ## Basics
-- The science part of computer science: other people are just doing maths
-  - Start with a hypothesis, be very specific about what should happen
-  - Do the experiment, do they match with the hypothesis?
-  - Might need to re-iterate the hypothesis or fix your system (different from benchmark selection)
-- What did you say your techniques are going to solve? Are they solving them?
 - Even we know what does it perform on each type of thing, how does it work on *real-world* scenario/workload
 - show your strength, what should happen
 - show your weaknesses, what you are not covering, don't try to mislead reviewer (you'll either fail, or worse, succeed)
