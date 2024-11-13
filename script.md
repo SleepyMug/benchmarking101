@@ -18,7 +18,7 @@
 Some of these are related to good testing, because benchmarks tests our system's performance and effectiveness
 
 #### General Setup
-- Usage managed server: SPEC CPU sun light story
+- Usage managed server: control---SPEC CPU sun light story; scale---laptops are tiny
 - Repeatable: seriously consider docker, or manage your states and dependencies **extremely** carefully (output directory cleared? are there packages you didn't put into setup scripts?)
 
 
