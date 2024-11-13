@@ -264,10 +264,10 @@
   Report average of \textbf{repeated} experiments, and report \textbf{standard deviation} or
   \textbf{confidence interval}
   \begin{itemize}
-  \item Not acceptable to say 5 second improvement with 20 second variation
-  \item \sout{Pick a good one} (You would go to academic jail for this)
-  \item \sout{Repeat 64 times to bring P-value down}
-  \item Figure out why it's varying so much and fix it
+  \item Not acceptable to say 5-second improvement with 20-second variation
+  \item \only<2>{Pick a good one} \only<3->{\sout{Pick a good one} (You would go to academic jail for this)}
+  \item \only<4>{Repeat 64 times to bring $p$-value down} \only<5->{\sout{Repeat 64 times to bring $p$-value down}}
+  \item<6> Figure out why it's varying so much and fix it
     \begin{itemize}
     \item Interference
     \item Networking in non-networking benchmarks
