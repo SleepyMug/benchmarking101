@@ -149,9 +149,9 @@
     \end{itemize}
   \item Show the performance breakdown
     \begin{itemize}
-    \item Different parts of overhead scale differently
-    \item Future research can optimize specific part
-    \item Readers can confirm their understanding of things
+    \item Different component's overhead scales differently
+    \item Future research can aim to improve specific part
+    \item Readers can confirm their understanding
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -193,13 +193,15 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Debug-ability}
+  \frametitle{Anticipation for Problems}
+  The moment all benchmarks run without any issue is probably the last time you run them.
+  Anticipate problems, and be prepared to solve them.
   \begin{itemize}
   \item Granularity: don't put all tests into one scripts
   \item Fast iteration
     \begin{itemize}
-    \item Have small scale benchmarks to help catch problems early (\~seconds)
-    \item Have big scale benchmarks for actual report (run this remotely)
+    \item Have small scale benchmarks to help catch problems early (run in seconds)
+    \item Have big scale benchmarks for main result (run this remotely, maybe hours or days)
     \end{itemize}
   \end{itemize}
 \end{frame}
