@@ -5,6 +5,7 @@
 - System research is about things that works in the current world.
 - No free lunch theorem
 - X
+- Representative set
 
 #### Be Complete and Be Frank
 - X
