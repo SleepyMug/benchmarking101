@@ -24,7 +24,6 @@ Some of these are related to good testing, because benchmarks tests our system's
 
 #### Validity
 We did a compiler-based transformation, it turns out for weeks this guy named X was just measuring the overhead of having no optimization.
-It turns out for weeks this guy named X was just measuring the overhead of having no optimization.
 #### Automation
 You will run this a *LOT* of times. Automate it to the point where you like running them.
 But also avoid over-engineering, be very careful what you are parameterizing over
