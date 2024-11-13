@@ -1,0 +1,299 @@
+\documentclass[xcolor={dvipsnames},aspectratio=149]{beamer}
+
+\definecolor{bgcolor}{rgb}{0.4,0.4,0.4}
+
+% presentation parameters
+\mode<presentation>
+{
+  \usetheme[block=fill]{metropolis}
+  \usecolortheme{dove}
+  \useoutertheme{infolines}
+  \setbeamertemplate{headline}{}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamercolor{frametitle}{bg=bgcolor, fg=white}
+  \setbeamercolor{author in head/foot}{fg=white,bg=bgcolor}
+  \setbeamercolor{date in head/foot}{fg=white,bg=bgcolor}
+  \setbeamercolor{title in head/foot}{fg=white,bg=bgcolor}
+  \setbeamerfont{footnote}{size=\scriptsize}
+}
+
+%% % fontawesome fix
+\defaultfontfeatures{Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fontawesome/}
+
+% packages
+\usepackage{booktabs}
+\usepackage{diagbox}
+\usepackage{fontawesome}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage{xspace}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage[normalem]{ulem}
+\captionsetup{labelformat=empty}
+
+% graphicx setup
+\graphicspath{{figs/}}
+\DeclareGraphicsExtensions{.pdf}
+
+
+% boilerplate definitions
+\def\eg{\emph{e.g.,}\xspace}
+\def\etc{\emph{etc.}\xspace}
+\def\ie{\emph{i.e.,}\xspace}
+\def\etal{\emph{et al.}\xspace}
+
+% styling
+\def\bl{$\bullet$\xspace}		% bullet
+\def\sq{{\tiny $\blacksquare$}\xspace}	% square
+\def\tr{$\blacktriangleright$\xspace}	% triangle
+\def\chk{\faCheck\xspace}		% check mark
+\def\x{\faTimes\xspace}			% x mark
+\def\st{\ding{74}\xspace}		% star mark
+\def\rarr{\ding{220}\xspace}		% arrow (right)
+\def\therefore{\ding{229}\xspace}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+  \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+% title
+\title[Benchmarking]
+{
+  Benchmarking
+}
+
+% subtitle
+\subtitle
+{
+  Goals and Strategies
+}
+
+% author
+\author[\href{mailto:di_jin@brown.edu}{Di Jin}]
+{
+  \href{https://sleepymug.me/}{\textbf{Di Jin}}
+}
+
+% affiliation
+% \institute[\href{https://cs.brown.edu}{Brown University}]
+% {
+% 	\href{https://gitlab.com/brown-ssl/}{Secure Systems Laboratory (SSL)} \\
+% 	\href{https://cs.brown.edu}{Department of Computer Science} \\
+% 	\href{https://www.brown.edu}{Brown University}
+% }
+
+% date
+\date[CSCI2952R]			% (optional)
+{
+	% July 11, 2022
+}
+
+% aux
+\subject{Talks}				% this is only inserted into the
+					% PDF information catalog. Can be
+					% left out
+
+% logo
+\pgfdeclareimage[height=1cm]{brown-logo}{figs/coat.png}
+\logo{\pgfuseimage{brown-logo}}
+
+% set the logo to nothing
+\newcommand{\nologo}{\setbeamertemplate{logo}{}}
+
+% non-numeric footnotes
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Basics}
+\begin{frame}
+  \frametitle{Realism}
+  Use the most realistic benchmark you can get. It can (and should) also impact your system design.
+  \begin{itemize}
+  \item Domain-specific advantages in real-world examples.
+    \begin{itemize}
+    \item Good unit tests
+    \item Tracing infrastructure
+    \end{itemize}
+  \item Accurate representation of the problems
+    \begin{itemize}
+    \item Scale
+    \item Access patterns
+    \item Bottlenecks (\eg IO, network)
+    \end{itemize}
+  \item Acquisition
+    \begin{itemize}
+    \item Research papers (selected benchmarks)
+    \item Popular open-source projects
+    \item Research papers (artifact)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Be Complete and Be Frank}
+  Ultimate goal: allowing readers to extrapolate what will happen with their workload.
+  \begin{itemize}
+  \item Show good things, the intended scenarios for your system
+  \item Show the bad things
+    \begin{itemize}
+    \item When does the scalability stop
+    \item What workload will be negatively impacted
+    \end{itemize}
+  \item Show the performance breakdown
+    \begin{itemize}
+    \item Different parts of overhead scale differently
+    \item Future research can optimize specific part
+    \item Readers can confirm their understanding of things
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{What to Benchmark?}
+  Extraordinary claims require extraordinary evidence.
+  \begin{itemize}
+  \item Something extremely surprising needs a lot of evidence
+    \begin{itemize}
+    \item \eg my system uses a single core but it's faster than a multi-threaded solution
+    \item Is there a breakdown?
+    \item How does it work on different types of workload?
+    \item What's the CPU utilization?
+    \item What are the potential limits?
+    \item $\ldots$
+    \end{itemize}
+  \item Something apparently true may require no benchmarking
+    \begin{itemize}
+    \item \eg my system adds metadata to \texttt{pip} packages for supply-chain security,
+      it incurs no runtime memory overhead
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Infrastructure}
+\begin{frame}
+  \frametitle{General Setup}
+  \begin{itemize}
+  \item Consider use managed server instances (\eg CloudLab \url{https://www.cloudlab.us/}, AWS)
+  \item Daemonize the benchmarking process (\eg \texttt{screen}, \texttt{tmux}, \texttt{nohup})
+  \item Repeatable
+    \begin{itemize}
+    \item Setup correct environment
+    \item Avoid stale states
+    \item \textit{Seriously} consider things like Docker
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Debug-ability}
+  \begin{itemize}
+  \item Granularity: don't put all tests into one scripts
+  \item Fast iteration
+    \begin{itemize}
+    \item Have small scale benchmarks to help catch problems early (\~seconds)
+    \item Have big scale benchmarks for actual report (run this remotely)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Validity}
+  ``Watch it fail first''
+  \begin{itemize}
+  \item Be very very paranoid
+  \item Verify whether things work as expected
+    \begin{itemize}
+    \item Rough performance numbers
+    \item Deliberately triggered failures
+    \item Workload with predictably different outcomes
+    \item Manual inspections (\eg debuggers, logging)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Automation}
+  \begin{itemize}
+  \item Push-button effort
+    \begin{itemize}
+    \item The benchmarks will be run \textbf{a lot}.
+    \item If you are lucky, they will be run by other people as well.
+    \end{itemize}
+  \item Separate data generation and presentation
+    \begin{itemize}
+    \item Allow analysis and inspection without re-running the experiment
+    \item Allows experimentation with data presentation when writing the paper
+    \end{itemize}
+  \item Only add abstractions as needed. Avoid over-design.
+  \end{itemize}
+\end{frame}
+
+\section{Some Points on Methodology}
+\begin{frame}
+  \frametitle{No Interference}
+  Do not run other things on the test environment
+  \begin{itemize}
+  \item No personal laptop (GUI, notifications, daemons)
+  \item No running web server
+  \item No resource sharing (even when VM is appropriate)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Statistical Reporting}
+  Report average of \textbf{repeated} experiments, and report \textbf{standard deviation} or
+  \textbf{confidence interval}
+  \begin{itemize}
+  \item Not acceptable to say 5 second improvement with 20 second variation
+  \item \sout{Pick a good one} (You would go to academic jail for this)
+  \item \sout{Repeat 64 times to bring P-value down}
+  \item Figure out why it's varying so much and fix it
+    \begin{itemize}
+    \item Interference
+    \item Networking in non-networking benchmarks
+    \item CPU auto-scaling/temperature throttling
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Get Some Results First}
+  Get 3--5 benchmarks end-to-end first
+  \begin{itemize}
+  \item Avoid fundamental problems
+    \begin{itemize}
+    \item Do not go three months into a project then realize that Python's GIL is a problem
+    \end{itemize}
+  \item Prioritize important things
+    \begin{itemize}
+    \item Solve problems impacting the benchmarks
+    \item If you believe something is important, find corresponding benchmark first
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Other Things}
+  \begin{itemize}
+  \item Add additional tracing for to breakdown overhead
+  \item Beware of the bottleneck of the system
+    \begin{itemize}
+    \item \eg don't hide CPU overhead under network bottleneck
+    \end{itemize}
+  \item Differentiate latency and throughput
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Further Readings}
+    \textit{Systems Benchmarking Crimes} by Gernot Heiser \url{https://gernot-heiser.org/benchmarking-crimes.html}
+\end{frame}
+\end{document}
