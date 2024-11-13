@@ -3,6 +3,7 @@
 ## Basics
 #### Realism
 - System research is about things that works in the current world.
+- No free lunch theorem
 - X
 
 #### Be Complete and Be Frank
