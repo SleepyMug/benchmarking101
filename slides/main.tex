@@ -141,7 +141,11 @@
   \frametitle{Be Complete and Be Frank}
   Ultimate goal: allowing readers to extrapolate what will happen with their workload.
   \begin{itemize}
-  \item Show good things, the intended scenarios for your system
+  \item Show good things
+    \begin{itemize}
+    \item Most ideal scenario/usecase
+    \item Best workload
+    \end{itemize}
   \item Show the bad things
     \begin{itemize}
     \item When does the scalability stop
@@ -231,7 +235,7 @@
     \end{itemize}
   \item Separate data generation and presentation
     \begin{itemize}
-    \item Allow analysis and inspection without re-running the experiment
+    \item Allows analysis and inspection without re-running the experiment
     \item Allows experimentation with data presentation when writing the paper
     \end{itemize}
   \item Only add abstractions as needed. Avoid over-design.
@@ -274,11 +278,11 @@
     \begin{itemize}
     \item Do not go three months into a project then realize that Python's GIL is a problem
     \end{itemize}
-  \item Prioritize important things
+  \item Prioritize important things: \textit{``If a tree falls in a forest and no one is around to hear it, does it make a sound?''}
+
     \begin{itemize}
     \item Solve problems impacting the benchmarks
     \item If you believe something is important, find corresponding benchmark first
-    \item ``If a tree falls in a forest and no one is around to hear it, does it make a sound?''
     \end{itemize}
   \end{itemize}
 \end{frame}
